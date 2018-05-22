@@ -39,5 +39,25 @@
   <script type="text/javascript" src='src/Image.js'></script>
   <script type="text/javascript" src='src/Comment.js'></script>
   <script type="text/javascript" src='src/index.js'></script>
+  <script type="text/javascript" charset="utf-8">
+    $(function() {
+      fetch('https://randopic.herokuapp.com/images/9')
+      .then(res => res.json())
+      .then(function(json) {
+        var like_count = json["like_count"];
+         $("#image_card").prepend(`<img src=${json["url"]} id="image">`);
+         $("#name").html(`${json["name"]}`);
+         $("#likes").html(`${like_count}`);
+         $("#comments").append("<ul>");
+         json["comments"].forEach(function(comment) {
+           $("#comments").append(`<li>${comment["content"]}</li>`)
+         });
+         $("#like_button").on("click", function() {
+          like_count++;
+          $("#likes").html(`${like_count}`)
+         });
+      });
+    });
+  </script>
   </body>
 </html>
